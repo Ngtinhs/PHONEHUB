@@ -1,6 +1,8 @@
 ﻿using eShopSolution.Application.Catalog.Products.Dtos;
-using eShopSolution.Application.Catalog.Products.Dtos.Manage;
-using eShopSolution.Application.Dtos;
+using eShopSolution.ViewModels.Catalog.Products;
+using eShopSolution.ViewModels.Catalog.Products.Manage;
+using eShopSolution.ViewModels.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace eShopSolution.Application.Catalog.Products
 {
+    // Interface này tạo các phương thức để quản lý sản phẩm
     public interface IManageProductService
     {
         // trả về kiểu int là trả về mã SP ta vừa tạo
@@ -31,5 +34,12 @@ namespace eShopSolution.Application.Catalog.Products
         // return một List ProductViewModel
         Task<PagedResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
 
+        Task<int> AddImages(int productId, List<IFormFile> files);
+
+        Task<int> RemoveImages(int imageId);
+
+        Task<int> UpdateImages(int imageId, string caption, bool isDefault);
+
+        Task<List<ProductImageViewModel>> GetListImage(int productId);
     }
 }
