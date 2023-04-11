@@ -19,5 +19,9 @@ namespace eShopSolution.Data.Entities
         public Product Product { get; set; }
 
         public DateTime DateCreated { get; set; }
+
+
+        // có property Guid UserId cho nên có khóa ngoại AppUser
+        public AppUser AppUser { get; set; }
     }
 }
