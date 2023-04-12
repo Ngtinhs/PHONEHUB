@@ -1,6 +1,4 @@
-﻿using eShopSolution.Application.Catalog.Products.Dtos;
-using eShopSolution.ViewModels.Catalog.Products;
-using eShopSolution.ViewModels.Catalog.Products.Manage;
+﻿using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -32,7 +30,7 @@ namespace eShopSolution.Application.Catalog.Products
 
         // dùng để tìm kiếm
         // return một List ProductViewModel
-        Task<PagedResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+        Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
 
         Task<int> AddImages(int productId, List<IFormFile> files);
 
