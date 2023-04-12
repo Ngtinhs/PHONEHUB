@@ -1,9 +1,12 @@
-using eShopSolution.Application.Catalog.Products;
+﻿using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System.Users;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
 using eShopSolution.Utilities.Constants;
+using eShopSolution.ViewModels.System.Users;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +39,8 @@ namespace eShopSolutionBackendApi
         {
             services.AddDbContext<EShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
+
+            // Cần thêm service này khi viết API đăng ký đăng nhập
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<EShopDbContext>()
                 .AddDefaultTokenProviders();
@@ -49,12 +54,22 @@ namespace eShopSolutionBackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
 
-            services.AddControllers();
+            //fluent validator
+            // ta có hai cách register validator
+            // 1. register lẻ từng cái view model như vậy
+            //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
+            // 2. đăng ký 1 lúc hết tất cả, sẽ tự động nhận diện các lớp kế thừa AbstractValidator
+            // đăng kí tất cả những validator mà cùng assembly ( dll ) với LoginRequestValidator
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
 
+                // Mỗi khi gọi swagger sẽ truyền vào một header tên Bearer này
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
@@ -66,6 +81,8 @@ namespace eShopSolutionBackendApi
                     Scheme = "Bearer"
                 });
 
+                // Định nghĩa bảo mật để khi chạy swagger ta phải đăng nhập để lấy token
+                //Token đó dùng để Authorize mở khóa các chức năg HTTP
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
@@ -94,6 +111,9 @@ namespace eShopSolutionBackendApi
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+
+            // Mỗi khi nhận được token thì sẽ giải mã validate những thuộc tính dưới đây
+            // Nó sẽ tự giải mã và validate, nếu không đúng thì sẽ trả về lỗi 401
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
