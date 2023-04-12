@@ -19,7 +19,7 @@ namespace eShopSolution.Data.Extentions
                );
 
             modelBuilder.Entity<Language>().HasData(
-                new Language() { Id = "vi-vn", Name = "Tiếng Việt", IsDefault = true },
+                new Language() { Id = "vi-VN", Name = "Tiếng Việt", IsDefault = true },
                 new Language() { Id = "en-US", Name = "English", IsDefault = false }
                 );
 
@@ -45,9 +45,9 @@ namespace eShopSolution.Data.Extentions
               );
 
             modelBuilder.Entity<CategoryTranslation>().HasData(
-                  new CategoryTranslation() { Id = 1, CategoryId = 1, Name = "Áo nam", LanguageId = "vi-vn", SeoAlias = "ao-nam", SeoDescription = "Sản phẩm áo thời trang nam", SeoTitle = "Sản phẩm áo thời trang nam" },
+                  new CategoryTranslation() { Id = 1, CategoryId = 1, Name = "Áo nam", LanguageId = "vi-VN", SeoAlias = "ao-nam", SeoDescription = "Sản phẩm áo thời trang nam", SeoTitle = "Sản phẩm áo thời trang nam" },
                   new CategoryTranslation() { Id = 2, CategoryId = 1, Name = "Men Shirt", LanguageId = "en-US", SeoAlias = "men-shirt", SeoDescription = "The shirt product for men", SeoTitle = "The shirt product for men" },
-                  new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Áo nữ", LanguageId = "vi-vn", SeoAlias = "ao-nu", SeoDescription = "Sản phẩm áo thời trang nữ", SeoTitle = "Sản phẩm áo thời trang nữ" },
+                  new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Áo nữ", LanguageId = "vi-VN", SeoAlias = "ao-nu", SeoDescription = "Sản phẩm áo thời trang nữ", SeoTitle = "Sản phẩm áo thời trang nữ" },
                   new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Women Shirt", LanguageId = "en-US", SeoAlias = "women-shirt", SeoDescription = "The shirt product for women", SeoTitle = "The shirt product for women" }
               );
 
@@ -66,28 +66,30 @@ namespace eShopSolution.Data.Extentions
                   {
                       Id = 1,
                       ProductId = 1,
-                      Name = "Áo sơ mi nam trắng",
-                      LanguageId = "vi-vn",
-                      SeoAlias = "ao-so-mi",
-                      SeoDescription = "Áo sơ mi nam trắng",
-                      SeoTitle = "Áo sơ mi nam trắng",
-                      Details = "Áo sơ mi nam trắng"
+                      Name = "Áo sơ mi nam trắng Việt Tiến",
+                      LanguageId = "vi-VN",
+                      SeoAlias = "ao-so-mi-nam-trang-viet-tien",
+                      SeoDescription = "Áo sơ mi nam trắng Việt Tiến",
+                      SeoTitle = "Áo sơ mi nam trắng Việt Tiến",
+                      Details = "Áo sơ mi nam trắng Việt Tiến",
+                      Description = "Áo sơ mi nam trắng Việt Tiến"
                   },
                   new ProductTranslation()
                   {
                       Id = 2,
                       ProductId = 1,
-                      Name = "Men T-Shirt",
+                      Name = "Viet Tien Men T-Shirt",
                       LanguageId = "en-US",
-                      SeoAlias = "Men T-Shirt",
-                      SeoDescription = "Men T-Shirt",
-                      SeoTitle = "Men T-Shirt",
-                      Details = "Men T-Shirt",
-                      Description = ""
+                      SeoAlias = "viet-tien-men-t-shirt",
+                      SeoDescription = "Viet Tien Men T-Shirt",
+                      SeoTitle = "Viet Tien Men T-Shirt",
+                      Details = "Viet Tien Men T-Shirt",
+                      Description = "Viet Tien Men T-Shirt"
                   });
             modelBuilder.Entity<ProductInCategory>().HasData(
                 new ProductInCategory() { ProductId = 1, CategoryId = 1 }
                 );
+
             // tạo data cho user mặc định
             // any guid
             var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
@@ -106,13 +108,13 @@ namespace eShopSolution.Data.Extentions
                 Id = adminId,
                 UserName = "admin",
                 NormalizedUserName = "admin",
-                Email = "ngtinh@gmail.com",
-                NormalizedEmail = "ngtinh@gmail.com",
+                Email = "nguyentinh@gmail.com",
+                NormalizedEmail = "nguyentinh@gmail.com",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
                 SecurityStamp = string.Empty,
-                FirstName = "Hy",
-                LastName = "Luan",
+                FirstName = "nguyen",
+                LastName = "tinh",
                 Dob = new DateTime(2000, 10, 24)
             });
 
