@@ -1,25 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
-	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
-	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\eShopSolution.Data\eShopSolution.Data.csproj" />
 		<ProjectReference Include="..\eShopSolution.Utilities\eShopSolution.Utilities.csproj" />
 		<ProjectReference Include="..\eShopSolution.ViewModels\eShopSolution.ViewModels.csproj" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<Folder Include="Catalog\Products\" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
 	</ItemGroup>
-	
 
 </Project>
