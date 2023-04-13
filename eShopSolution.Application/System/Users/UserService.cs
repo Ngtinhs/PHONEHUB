@@ -35,11 +35,9 @@ namespace eShopSolution.Application.System.Users
 
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
-            // Tìm xem tên user có tồn tại hay không
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
 
-            // Trả về một SignInResult, tham số cuối là IsPersistent kiểu bool
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
             {
@@ -53,13 +51,9 @@ namespace eShopSolution.Application.System.Users
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName)
             };
-
-            // Sau khi có được claim thì ta cần mã hóa nó
-            // Tokens key và issuer nằm ở appsettings.json và truy cập được thông qua DI 1 Iconfig
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // 1 SecurityToken ( cần cài jwt ) 
             var token = new JwtSecurityToken(_config["Tokens:Issuer"],
                 _config["Tokens:Issuer"],
                 claims,
@@ -83,7 +77,6 @@ namespace eShopSolution.Application.System.Users
                 return new ApiErrorResult<bool>("Xóa không thành công");
         }
 
-
         public async Task<ApiResult<UserViewModel>> GetById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -104,13 +97,14 @@ namespace eShopSolution.Application.System.Users
             return new ApiSuccessResult<UserViewModel>(userVm);
         }
 
+        // Phương thức tìm kiếm
         public async Task<ApiResult<PagedResult<UserViewModel>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.UserName.Contains(request.Keyword)
-               || x.PhoneNumber.Contains(request.Keyword) || x.Email.Contains(request.Keyword));
+                 || x.PhoneNumber.Contains(request.Keyword) || x.Email.Contains(request.Keyword));
             }
 
             //3. Paging
