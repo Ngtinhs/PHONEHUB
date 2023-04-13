@@ -35,9 +35,11 @@ namespace eShopSolution.Application.System.Users
 
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
+            // Tìm xem tên user có tồn tại hay không
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return null;
 
+            // Trả về một SignInResult, tham số cuối là IsPersistent kiểu bool
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
             {
@@ -51,9 +53,13 @@ namespace eShopSolution.Application.System.Users
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName)
             };
+
+            // Sau khi có được claim thì ta cần mã hóa nó
+            // Tokens key và issuer nằm ở appsettings.json và truy cập được thông qua DI 1 Iconfig
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            // 1 SecurityToken ( cần cài jwt ) 
             var token = new JwtSecurityToken(_config["Tokens:Issuer"],
                 _config["Tokens:Issuer"],
                 claims,
@@ -72,12 +78,13 @@ namespace eShopSolution.Application.System.Users
             }
             var userVm = new UserViewModel()
             {
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
+                LastName = user.LastName,
                 Dob = user.Dob,
-                Id = user.Id,
-                LastName = user.LastName
+                Id = user.Id
             };
             return new ApiSuccessResult<UserViewModel>(userVm);
         }
@@ -109,7 +116,9 @@ namespace eShopSolution.Application.System.Users
             //4. Select and projection
             var pagedResult = new PagedResult<UserViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
                 Items = data
             };
             return new ApiSuccessResult<PagedResult<UserViewModel>>(pagedResult);
