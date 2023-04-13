@@ -1,4 +1,5 @@
 ﻿using eShopSolution.AdminApp.Services;
+using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -57,7 +58,6 @@ namespace eShopSolution.AdminApp.Controllers
                 return View();
             }
 
-
             // Giải mã token đã mã hóa và lấy token, lấy cả các claim đã định nghĩa trong UserService
             // khi debug sẽ thấy nhận được gì  ( có nhận được cả issuer )
             var userPrincipal = this.ValidateToken(result.ResultObj);
@@ -68,7 +68,8 @@ namespace eShopSolution.AdminApp.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
                 IsPersistent = false
             };
-            HttpContext.Session.SetString("Token", result.ResultObj);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 userPrincipal,
