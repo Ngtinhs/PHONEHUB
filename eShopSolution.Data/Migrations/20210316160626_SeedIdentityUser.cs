@@ -10,7 +10,7 @@ namespace eShopSolution.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "951d0949-bc17-4004-ac0d-a5dbcf759a75", "Administrator role", "admin", "admin" });
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "c7dfafc7-8c20-42b2-90e4-42862812a084", "Administrator role", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -20,14 +20,14 @@ namespace eShopSolution.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "395d8654-bc91-4adc-ae70-0b07dbbdee43", new DateTime(2000, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "ngtinh@gmail.com", true, "Hy", "Luan", false, null, "ngtinh@gmail.com", "admin", "AQAAAAEAACcQAAAAEENng+U138uexxiG8Bp2gQNl5dAS1G3J8q0FMjU9RaPzLghbHdWD7UCKeyyK+L/naw==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "095f5cc2-2b76-46d3-8b6b-ddf52e450c5c", new DateTime(2000, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "hytranluan@gmail.com", true, "Hy", "Luan", false, null, "hytranluan@gmail.com", "admin", "AQAAAAEAACcQAAAAEFBCsfzKJrFvN7d/zF6lF5fMHylrgDxIprOhP+iSOmPR1dSozW2dmXC7+f1xnUwrXA==", null, false, "", false, "admin" });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 4, 11, 18, 33, 49, 211, DateTimeKind.Local).AddTicks(5626));
+                value: new DateTime(2021, 3, 16, 23, 6, 24, 629, DateTimeKind.Local).AddTicks(8729));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -52,7 +52,7 @@ namespace eShopSolution.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 4, 11, 18, 25, 31, 523, DateTimeKind.Local).AddTicks(8257));
+                value: new DateTime(2021, 3, 16, 23, 1, 51, 631, DateTimeKind.Local).AddTicks(3173));
         }
     }
 }

@@ -33,6 +33,9 @@ namespace eShopSolution.AdminApp.Services
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
+            /* Tạo một client có base address là backend api và truyền vào hàm authenticate 
+             của backend api một httpcnotent vừa tạo ở trên sau đó sẽ trả về response một
+            */
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             var response = await client.PostAsync("/api/users/authenticate", httpContent);
@@ -57,7 +60,6 @@ namespace eShopSolution.AdminApp.Services
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
-
 
         public async Task<ApiResult<UserViewModel>> GetById(Guid id)
         {
@@ -126,6 +128,7 @@ namespace eShopSolution.AdminApp.Services
         public async Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
+            // BaseAddress lấy trong appsettings.Development.json bằng Configuratrion
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
 
@@ -137,8 +140,11 @@ namespace eShopSolution.AdminApp.Services
             var response = await client.PutAsync($"/api/users/{id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
+            {
+                // Deserialize thành 1 object cùng type với return type BackendApi trả về ở đây là ApiSuccessResult
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
+            }
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
         }
     }

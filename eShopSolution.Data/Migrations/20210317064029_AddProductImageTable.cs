@@ -37,21 +37,21 @@ namespace eShopSolution.Data.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
                 column: "ConcurrencyStamp",
-                value: "2dcf6ea3-af14-4070-b0f2-ce87f7744eb3");
+                value: "5f21adbe-f642-432c-ad1c-868673835ddd");
 
             migrationBuilder.UpdateData(
                 table: "AppUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "677b2d7b-8c9b-45d4-bf93-ab69628a45f8", "AQAAAAEAACcQAAAAECxS/Di3hy4lVjSBY8cn9WYePW6rx5Qz9dKGX+n/u9plRiDwgc9A0+MshgT7jF4T7w==" });
+                values: new object[] { "6296d70e-daf0-49c8-8aeb-942aa671b021", "AQAAAAEAACcQAAAAEL9flsOqa0/BrBVj+yb9pkaO4kF3ZVrNu1XV/0wcFlUox+tNbfF8l5YpSPULFjTmAA==" });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 4, 11, 20, 26, 4, 667, DateTimeKind.Local).AddTicks(7760));
+                value: new DateTime(2021, 3, 17, 13, 40, 28, 718, DateTimeKind.Local).AddTicks(9849));
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductImage_ProductId",
@@ -69,21 +69,21 @@ namespace eShopSolution.Data.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
                 column: "ConcurrencyStamp",
-                value: "951d0949-bc17-4004-ac0d-a5dbcf759a75");
+                value: "c7dfafc7-8c20-42b2-90e4-42862812a084");
 
             migrationBuilder.UpdateData(
                 table: "AppUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "395d8654-bc91-4adc-ae70-0b07dbbdee43", "AQAAAAEAACcQAAAAEENng+U138uexxiG8Bp2gQNl5dAS1G3J8q0FMjU9RaPzLghbHdWD7UCKeyyK+L/naw==" });
+                values: new object[] { "095f5cc2-2b76-46d3-8b6b-ddf52e450c5c", "AQAAAAEAACcQAAAAEFBCsfzKJrFvN7d/zF6lF5fMHylrgDxIprOhP+iSOmPR1dSozW2dmXC7+f1xnUwrXA==" });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 4, 11, 18, 33, 49, 211, DateTimeKind.Local).AddTicks(5626));
+                value: new DateTime(2021, 3, 16, 23, 6, 24, 629, DateTimeKind.Local).AddTicks(8729));
         }
     }
 }

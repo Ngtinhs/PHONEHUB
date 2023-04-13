@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace eShopSolution.AdminApp.Controllers
 {
+    // Không kế thừa BaseController vì khi log in thì không cần kiểm tra có token hay không
     public class LoginController : Controller
     {
         private readonly IUserApiClient _userApiClient;
@@ -51,7 +52,7 @@ namespace eShopSolution.AdminApp.Controllers
             // Nhận 1 token được mã hóa
             var result = await _userApiClient.Authenticate(request);
 
-            if (result.ResultObj == null)
+            if(result.ResultObj == null)
             {
                 // Hiển thị thông báo Tài khoản không tồn tại
                 ModelState.AddModelError("", result.Message);
@@ -68,8 +69,13 @@ namespace eShopSolution.AdminApp.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
                 IsPersistent = false
             };
+
+            // Set key defaultlanguageId trong session lấy value trong appsettings.json
             HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
+            
+            // Set key token trong session bằng token nhận được khi authenticate
             HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
+
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 userPrincipal,

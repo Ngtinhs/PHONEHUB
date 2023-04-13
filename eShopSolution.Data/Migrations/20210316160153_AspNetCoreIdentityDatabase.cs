@@ -8,29 +8,44 @@ namespace eShopSolution.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<Guid>(
-                name: "AppUserId",
-                table: "Transactions",
-                type: "uniqueidentifier",
-                nullable: true);
-
-            migrationBuilder.AddColumn<Guid>(
                 name: "UserId",
                 table: "Transactions",
                 type: "uniqueidentifier",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
-            migrationBuilder.AddColumn<Guid>(
-                name: "AppUserId",
+            migrationBuilder.AlterColumn<string>(
+                name: "ShipPhoneNumber",
                 table: "Orders",
-                type: "uniqueidentifier",
-                nullable: true);
+                type: "nvarchar(200)",
+                maxLength: 200,
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
 
-            migrationBuilder.AddColumn<Guid>(
-                name: "AppUserId",
-                table: "Carts",
-                type: "uniqueidentifier",
-                nullable: true);
+            migrationBuilder.AlterColumn<string>(
+                name: "ShipName",
+                table: "Orders",
+                type: "nvarchar(200)",
+                maxLength: 200,
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ShipAddress",
+                table: "Orders",
+                type: "nvarchar(200)",
+                maxLength: 200,
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
 
             migrationBuilder.CreateTable(
                 name: "AppRoleClaims",
@@ -150,60 +165,60 @@ namespace eShopSolution.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 4, 11, 18, 25, 31, 523, DateTimeKind.Local).AddTicks(8257));
+                value: new DateTime(2021, 3, 16, 23, 1, 51, 631, DateTimeKind.Local).AddTicks(3173));
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_AppUserId",
+                name: "IX_Transactions_UserId",
                 table: "Transactions",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_AppUserId",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_AppUserId",
+                name: "IX_Carts_UserId",
                 table: "Carts",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Carts_AppUsers_AppUserId",
+                name: "FK_Carts_AppUsers_UserId",
                 table: "Carts",
-                column: "AppUserId",
+                column: "UserId",
                 principalTable: "AppUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Orders_AppUsers_AppUserId",
+                name: "FK_Orders_AppUsers_UserId",
                 table: "Orders",
-                column: "AppUserId",
+                column: "UserId",
                 principalTable: "AppUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Transactions_AppUsers_AppUserId",
+                name: "FK_Transactions_AppUsers_UserId",
                 table: "Transactions",
-                column: "AppUserId",
+                column: "UserId",
                 principalTable: "AppUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Carts_AppUsers_AppUserId",
+                name: "FK_Carts_AppUsers_UserId",
                 table: "Carts");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Orders_AppUsers_AppUserId",
+                name: "FK_Orders_AppUsers_UserId",
                 table: "Orders");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Transactions_AppUsers_AppUserId",
+                name: "FK_Transactions_AppUsers_UserId",
                 table: "Transactions");
 
             migrationBuilder.DropTable(
@@ -228,39 +243,54 @@ namespace eShopSolution.Data.Migrations
                 name: "AppUserTokens");
 
             migrationBuilder.DropIndex(
-                name: "IX_Transactions_AppUserId",
+                name: "IX_Transactions_UserId",
                 table: "Transactions");
 
             migrationBuilder.DropIndex(
-                name: "IX_Orders_AppUserId",
+                name: "IX_Orders_UserId",
                 table: "Orders");
 
             migrationBuilder.DropIndex(
-                name: "IX_Carts_AppUserId",
+                name: "IX_Carts_UserId",
                 table: "Carts");
-
-            migrationBuilder.DropColumn(
-                name: "AppUserId",
-                table: "Transactions");
 
             migrationBuilder.DropColumn(
                 name: "UserId",
                 table: "Transactions");
 
-            migrationBuilder.DropColumn(
-                name: "AppUserId",
-                table: "Orders");
+            migrationBuilder.AlterColumn<string>(
+                name: "ShipPhoneNumber",
+                table: "Orders",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(200)",
+                oldMaxLength: 200);
 
-            migrationBuilder.DropColumn(
-                name: "AppUserId",
-                table: "Carts");
+            migrationBuilder.AlterColumn<string>(
+                name: "ShipName",
+                table: "Orders",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(200)",
+                oldMaxLength: 200);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ShipAddress",
+                table: "Orders",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(200)",
+                oldMaxLength: 200);
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 4, 11, 17, 55, 50, 119, DateTimeKind.Local).AddTicks(4156));
+                value: new DateTime(2021, 3, 16, 19, 58, 22, 244, DateTimeKind.Local).AddTicks(8242));
         }
     }
 }

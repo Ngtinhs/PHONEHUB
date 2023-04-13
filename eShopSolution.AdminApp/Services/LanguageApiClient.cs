@@ -17,7 +17,7 @@ namespace eShopSolution.AdminApp.Services
         public LanguageApiClient(IHttpClientFactory httpClientFactory,
                   IHttpContextAccessor httpContextAccessor,
                    IConfiguration configuration)
-           : base(httpClientFactory, httpContextAccessor, configuration)
+           : base (httpClientFactory, httpContextAccessor, configuration)
         {
         }
         public async Task<ApiResult<List<LanguageViewModel>>> GetAll()

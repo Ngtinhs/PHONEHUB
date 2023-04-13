@@ -1,24 +1,25 @@
 ﻿using eShopSolution.Data.Configurations;
 using eShopSolution.Data.Entities;
-using Microsoft.EntityFrameworkCore;
 using eShopSolution.Data.Extentions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace eShopSolution.Data.EF
 {
-    public class EShopDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class EShopDbContext : IdentityDbContext<AppUser,AppRole,Guid>
     {
         public EShopDbContext(DbContextOptions options) : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             //Configure using Fluent API
+
             modelBuilder.ApplyConfiguration(new CartConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
@@ -45,10 +46,10 @@ namespace eShopSolution.Data.EF
 
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
-
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
+
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
@@ -68,7 +69,6 @@ namespace eShopSolution.Data.EF
 
             //base.OnModelCreating(modelBuilder);
         }
-
 
         public DbSet<Product> Products { get; set; }
 
@@ -95,6 +95,7 @@ namespace eShopSolution.Data.EF
         public DbSet<Promotion> Promotions { get; set; }
 
         public DbSet<Transaction> Transactions { get; set; }
+
         public DbSet<ProductImage> ProductImages { get; set; }
     }
 }

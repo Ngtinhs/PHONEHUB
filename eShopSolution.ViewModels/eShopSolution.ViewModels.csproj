@@ -8,8 +8,13 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
   </ItemGroup>
-	
-	<ItemGroup>
-		<Folder Include="Catalog\ProductImages\" />
-	</ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Catalog\ProductImages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\eShopSolution.Utilities\eShopSolution.Utilities.csproj" />
+  </ItemGroup>
+
 </Project>

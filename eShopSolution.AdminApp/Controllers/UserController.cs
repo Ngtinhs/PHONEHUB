@@ -24,7 +24,7 @@ namespace eShopSolution.AdminApp.Controllers
         private readonly IConfiguration _configuration;
         private readonly IRoleApiClient _roleApiClient;
 
-        public UserController(IUserApiClient userApiClient,
+        public UserController(IUserApiClient userApiClient, 
             IRoleApiClient roleApiClient,
             IConfiguration configuration)
         {
@@ -43,7 +43,7 @@ namespace eShopSolution.AdminApp.Controllers
             };
             var data = await _userApiClient.GetUsersPagings(request);
             ViewBag.Keyword = keyword;
-            if (TempData["result"] != null)
+            if(TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
@@ -129,9 +129,9 @@ namespace eShopSolution.AdminApp.Controllers
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
-            return View(new UserDeleteRequest()
-            {
-                Id = id
+            return View(new UserDeleteRequest() 
+            { 
+                 Id = id
             });
         }
 
@@ -170,7 +170,8 @@ namespace eShopSolution.AdminApp.Controllers
             {
                 TempData["result"] = "Cập nhật quyền thành công";
                 return RedirectToAction("Index");
-            }
+            }  
+             
 
             ModelState.AddModelError("", result.Message);
             var roleAssignRequest = await GetRoleAssignRequest(request.Id);
@@ -178,6 +179,7 @@ namespace eShopSolution.AdminApp.Controllers
             return View(roleAssignRequest);
         }
 
+        // Dùng cho Http Get trang gán quyền Hiện ra tẩt cả role + role user đã chọn
         private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
         {
             var userObj = await _userApiClient.GetById(id);

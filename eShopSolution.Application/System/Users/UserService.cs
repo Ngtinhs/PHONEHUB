@@ -116,7 +116,7 @@ namespace eShopSolution.Application.System.Users
             }
 
             //3. Paging
-            int totalRow = await query.CountAsync();
+            int totalRow = await query.CountAsync(); 
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
@@ -144,13 +144,17 @@ namespace eShopSolution.Application.System.Users
         public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
+
+            // Kiểm tra tài khoản đã tồn tại chưa
             if (user != null)
             {
                 return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
             }
+
+            // Kiểm tra email đã tồn tại chưa
             if (await _userManager.FindByEmailAsync(request.Email) != null)
             {
-                return new ApiErrorResult<bool>("Emai đã tồn tại");
+                return new ApiErrorResult<bool>("Email đã tồn tại");
             }
 
             user = new AppUser()
@@ -173,21 +177,32 @@ namespace eShopSolution.Application.System.Users
         public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
+
             if (user == null)
             {
                 return new ApiErrorResult<bool>("Tài khoản không tồn tại");
             }
+
+            /* Khi gán quyền, người dùng bấm lưu lại thì kiểm tra xem role nào đã bỏ chọn
+             * Sau đó lấy ra danh sách role đã bỏ chọn ( selected == false )
+             * Dựa vào danh sách này sẽ tương tác với db và remove các role đã bị bỏ chọn khỏi user
+             */
             var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
             foreach (var roleName in removedRoles)
             {
-                if (await _userManager.IsInRoleAsync(user, roleName) == false)
+                if (await _userManager.IsInRoleAsync(user, roleName) == true)
                 {
-                    await _userManager.AddToRoleAsync(user, roleName);
+                    await _userManager.RemoveFromRoleAsync(user, roleName);
                 }
             }
             await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
-            var addedRoles = request.Roles.Where(x => x.Selected).Select(x => x.Name).ToList();
+
+            /* Khi gán quyền, người dùng bấm lưu lại thì kiểm tra xem role nào đã được chọn
+            * Sau đó lấy ra danh sách role đã được chọn ( selected == true )
+            * Dựa vào danh sách này sẽ tương tác với db và add các role đã được chọn cho user
+            */
+            var addedRoles = request.Roles.Where(x => x.Selected == true).Select(x => x.Name).ToList();
             foreach (var roleName in addedRoles)
             {
                 if (await _userManager.IsInRoleAsync(user, roleName) == false)
@@ -200,10 +215,13 @@ namespace eShopSolution.Application.System.Users
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
         {
+            // AnyAsync: bất cứ object nào mà thỏa mãn điều kiện thì sẽ trả về true
             if (await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id))
             {
-                return new ApiErrorResult<bool>("Emai đã tồn tại");
+                return new ApiErrorResult<bool>("Email đã tồn tại");
             }
+
+            // Phải to string id vì FindByIdAsync nhận tham số kiểu string
             var user = await _userManager.FindByIdAsync(id.ToString());
             user.Dob = request.Dob;
             user.Email = request.Email;

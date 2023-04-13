@@ -40,7 +40,6 @@ namespace eShopSolution.Data.Extentions
                   ParentId = null,
                   SortOrder = 2,
                   Status = Status.Active,
-
               }
               );
 
@@ -107,14 +106,14 @@ namespace eShopSolution.Data.Extentions
             {
                 Id = adminId,
                 UserName = "admin",
-                NormalizedUserName = "admin",
-                Email = "nguyentinh@gmail.com",
-                NormalizedEmail = "nguyentinh@gmail.com",
+                NormalizedUserName = "ADMIN",
+                Email = "hytranluan@gmail.com",
+                NormalizedEmail = "HYTRANLUAN@GMAIL.COM",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
                 SecurityStamp = string.Empty,
-                FirstName = "nguyen",
-                LastName = "tinh",
+                FirstName = "Hy",
+                LastName = "Luan",
                 Dob = new DateTime(2000, 10, 24)
             });
 

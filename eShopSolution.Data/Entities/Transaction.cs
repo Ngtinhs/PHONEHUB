@@ -25,7 +25,6 @@ namespace eShopSolution.Data.Entities
 
         public string Provider { set; get; }
 
-
         public Guid UserId { get; set; }
 
         // có property Guid UserId cho nên có khóa ngoại AppUser

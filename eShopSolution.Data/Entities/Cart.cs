@@ -20,7 +20,6 @@ namespace eShopSolution.Data.Entities
 
         public DateTime DateCreated { get; set; }
 
-
         // có property Guid UserId cho nên có khóa ngoại AppUser
         public AppUser AppUser { get; set; }
     }

@@ -21,12 +21,12 @@ namespace eShopSolution.Application.System.Roles
         {
             var roles = await _roleManager.Roles
                 .Select(x => new RoleViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
 
-                }).ToListAsync();
+            }).ToListAsync();
 
             return roles;
         }

@@ -32,10 +32,10 @@ namespace eShopSolution.AdminApp
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
-                {
-                    options.LoginPath = "/Login/Index";
-                    options.AccessDeniedPath = "/Account/Forbidden/";
-                });
+            {
+                options.LoginPath = "/Login/Index";
+                options.AccessDeniedPath = "/Account/Forbidden/";
+            });
 
             services.AddControllersWithViews()
                                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
@@ -51,16 +51,17 @@ namespace eShopSolution.AdminApp
             services.AddTransient<IRoleApiClient, RoleApiClient>();
             services.AddTransient<ILanguageApiClient, LanguageApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
             IMvcBuilder builder = services.AddRazorPages();
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-#if DEBUG
+            #if DEBUG
             if (environment == Environments.Development)
             {
                 builder.AddRazorRuntimeCompilation();
             }
-#endif
+            #endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
