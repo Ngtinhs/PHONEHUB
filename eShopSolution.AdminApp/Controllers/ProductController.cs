@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.AdminApp.Models;
-using eShopSolution.AdminApp.Services;
+using eShopSolution.ApiIntegration;
 using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace eShopSolution.AdminApp.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductApiClient _productApiClient;
         private readonly IConfiguration _configuration;
@@ -61,8 +61,6 @@ namespace eShopSolution.AdminApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.CurrentLanguage = HttpContext.Session
-                .GetString(SystemConstants.AppSettings.DefaultLanguageId);
             return View();
         }
 
@@ -85,11 +83,46 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id, string languageId)
+        public async Task<IActionResult> Edit(int id)
         {
-            var result = await _productApiClient.GetById(id, languageId);
-            return View(result);
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            var product = await _productApiClient.GetById(id, languageId);
+            var editVm = new ProductUpdateRequest()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Details = product.Details,
+                SeoAlias = product.SeoAlias,
+                SeoDescription = product.SeoDescription,
+                SeoTitle = product.SeoTitle
+            };
+
+            return View(editVm);
         }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View(request);
+
+            var result = await _productApiClient.UpdateProduct(request);
+            if (result)
+            {
+                TempData["result"] = "Cập nhật sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Cập nhật sản phẩm thất bại");
+            return View(request);
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //}
 
         [HttpGet]
         public async Task<IActionResult> CategoryAssign(int id)
