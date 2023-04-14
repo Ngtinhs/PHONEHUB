@@ -25,7 +25,7 @@
   - Một user là một tài khoản do khách hàng đăng ký và trong hệ thống chỉ có 1 user là admin được code sẵn
   - Một user có một hoặc nhiều Order và một Order chỉ thuộc về một Customer
   - User có ID nằm trong quyền Admin của bảng APP_ROLES mới truy cập trang admin được
-  - Phân tích quản lý khách hàng phía admin ở #132 
+  - Phân tích quản lý khách hàng phía admin ở
 
 - **PRODUCTS** bao gồm: ID, CategoryID, Name, Description, Details, Price, Stock, Thumbnail, Image
   - Đây là bảng lưu các sản phẩm có trong hệ thống
@@ -44,14 +44,14 @@
   - Một Product thuộc về một hoặc nhiều Order_Detail và một Order_Detail chỉ có một Product
   - Thumbnail là ảnh đại diện để khách hàng xem trong danh sách sản phẩm phía client
   - ProductImage là ảnh có độ phân giải lớn hơn dùng ở trang chi tiết sản phẩm
-  - Phân tích quản lý sản phẩm ở #131 
+  - Phân tích quản lý sản phẩm
 
 - **CATEGORIES** bao gồm: ID, Name
   - Đây là bảng lưu danh mục của sản phẩm
   - **Name** là tên một danh mục sản phẩm
   - Một category (danh mục) sẽ chỉ định danh mục sản phẩm của một sản phẩm
   - Một Category thuộc về một hoặc nhiều Product và một Product có một Category
-  - Phân tích quản lý danh mục phía admin ở #138
+  - Phân tích quản lý danh mục phía admin
 
 - **ORDERS** bao gồm: ID, UserID, OrderDate, Status, ShipAddress, ShipName và ShipPhoneNumber
   - Đây là bảng lưu các đơn đặt hàng của user được phát sinh khi user đặt hàng
@@ -66,8 +66,8 @@
     - Mỗi Customer được định danh bằng UserID
   - Một Order có một hoặc nhiều Order detail và một Order detail chỉ thuộc về một Order
   - Đơn hàng có các trạng thái: Đang chờ duyệt, Đã duyệt, Đang giao, Đã giao và Đã hủy
-  - Phân tích quá trình đặt hàng ở #137 
-  - Phân tích quản lý đơn hàng phía admin ở #130 
+  - Phân tích quá trình đặt hàng
+  - Phân tích quản lý đơn hàng phía admin ở 
 
 - **ORDER_DETAILS** bao gồm: OrderID, ProductID, Quantity
   - Đây là bảng lưu chi tiết cụ thể của một Order (đơn hàng) trong  hệ thống
