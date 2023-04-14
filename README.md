@@ -1,7 +1,7 @@
 ## Web bán hàng điện thoại online
-- Nguyễn Văn Đức Tính: 19DH110978
-- Phạm Lê Anh Tú: 19DH110617
-- Trần Văn Đạt
+- Trần Luân Hy: 18DH110413
+- Hoàng Trần An Thiên: 18DH110447
+- Lê Quốc Anh: 18DH110446
 ## Mô tả đề tài
 - Tạo ra một website bán điện thoại di động giúp người dùng có thể tìm kiếm sản phẩm, thông tin sản phẩm và so sánh giữa nhiều sản phẩm với nhau trước khi quyết định mua hàng.
 - Giúp nhóm phát triển kĩ năng lập trình web.
