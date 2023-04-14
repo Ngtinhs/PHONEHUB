@@ -58,7 +58,8 @@
                             <td>
                                 @{
                                     string html = @Model.Description;
-                                    string removeFirstFigure = html.Remove(0, 22);
+                                    string removeFirstFigure = html.Length >= 22 ? html.Remove(0, 22) : html;
+
                                     string removeLastFigure = removeFirstFigure.Remove(removeFirstFigure.Length - 9);
                                     string addedTableFormat = removeLastFigure.Insert(6, " class=\"table table-bordered table-striped\"");
                                 }

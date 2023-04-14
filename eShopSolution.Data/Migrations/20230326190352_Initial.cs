@@ -242,7 +242,7 @@ namespace eShopSolution.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "58dd3695-7857-4559-959a-5f1674fcc4f4", "hytranluan@gmail.com", true, false, null, "Luan Hy", "HYTRANLUAN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEJDQzMQzBBHD6HHVeAW6qczkIRClwtwiFJM4rljYnwUuIqgSm5MgiqOV1bmYDcbXog==", null, false, "", false, "admin", 0 });
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "58dd3695-7857-4559-959a-5f1674fcc4f4", "suppport.phonehub@gmail.com", true, false, null, "Luan Hy", "suppport.phonehub@gmail.com", "ADMIN", "AQAAAAEAACcQAAAAEJDQzMQzBBHD6HHVeAW6qczkIRClwtwiFJM4rljYnwUuIqgSm5MgiqOV1bmYDcbXog==", null, false, "", false, "admin", 0 });
 
             migrationBuilder.InsertData(
                 table: "Categories",

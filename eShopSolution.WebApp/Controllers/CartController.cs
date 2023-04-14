@@ -119,7 +119,7 @@ namespace eShopSolution.WebApp.Controllers
             {
                 // mail admin when have new email
                 var email1 = new EmailService.EmailService();
-                email1.Send("hytranluan@gmail.com", "hytranluan@gmail.com",
+                email1.Send("suppport.phonehub@gmail.com", "suppport.phonehub@gmail.com",
                     "ĐƠN HÀNG MỚI", $"Mã đơn hàng là <strong>{result}</strong>, nhấn vào <a href='" + "https://localhost:5002/Order/Detail?orderId=" + result + "'>đây</a> để đến trang quản lý đơn hàng này.");
 
                 var orderSummaryHtml = "<table border='1' style='border-collapse:collapse'>"
@@ -192,7 +192,7 @@ namespace eShopSolution.WebApp.Controllers
 
                 var userMail = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email).Value;
                 var email2 = new EmailService.EmailService();
-                email2.Send("hytranluan@gmail.com", userMail,
+                email2.Send("suppport.phonehub@gmail.com", userMail,
                                 "ĐẶT HÀNG THÀNH CÔNG",
                                 templateHtml
                                 + orderSummaryHtml
@@ -349,7 +349,7 @@ namespace eShopSolution.WebApp.Controllers
             {
                 // mail admin when have new email
                 var email1 = new EmailService.EmailService();
-                email1.Send("hytranluan@gmail.com", "hytranluan@gmail.com",
+                email1.Send("suppport.phonehub@gmail.com", "suppport.phonehub@gmail.com",
                     "ĐƠN HÀNG MỚI", $"Mã đơn hàng là <strong>{result}</strong>, nhấn vào <a href='" + "https://localhost:5002/Order/Detail?orderId=" + result + "'>đây</a> để đến trang quản lý đơn hàng này.");
 
                 var orderSummaryHtml = "<table border='1' style='border-collapse:collapse'>"
@@ -422,7 +422,7 @@ namespace eShopSolution.WebApp.Controllers
 
                 var userMail = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email).Value;
                 var email2 = new EmailService.EmailService();
-                email2.Send("hytranluan@gmail.com", userMail,
+                email2.Send("suppport.phonehub@gmail.com", userMail,
                                 "ĐẶT HÀNG THÀNH CÔNG",
                                 templateHtml
                                 + orderSummaryHtml
