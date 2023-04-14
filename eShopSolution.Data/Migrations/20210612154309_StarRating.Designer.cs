@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopSolution.Data.EF;
 
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210612154309_StarRating")]
+    partial class StarRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +164,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-
+                            ConcurrencyStamp = "4f3ca076-ed9a-49fb-b100-1520efa50849",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -235,14 +237,14 @@ namespace eShopSolution.Data.Migrations
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
                             Address = "123 An Dương Vương P.8 Q.5",
-
+                            ConcurrencyStamp = "06579bb2-7759-465b-b220-05650e55ea44",
                             Email = "hytranluan@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "Luan Hy",
                             NormalizedEmail = "HYTRANLUAN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-
+                            PasswordHash = "AQAAAAEAACcQAAAAEMlfqUdtOMlrdVvCS145w273C70Gja2aSPlsApQAuIYU+2mTuYlQBO8W33zJLArEhg==",
                             PhoneNumber = "0765006381",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -446,9 +448,9 @@ namespace eShopSolution.Data.Migrations
                     b.HasData(
                         new
                         {
-     
+                            Id = 1,
                             CategoryId = 1,
-
+                            DateCreated = new DateTime(2021, 6, 12, 22, 43, 8, 593, DateTimeKind.Local).AddTicks(2046),
                             Description = "",
                             Details = "",
                             Name = "iPhone 12 Pro",
@@ -459,6 +461,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 2,
+                            DateCreated = new DateTime(2021, 6, 12, 22, 43, 8, 593, DateTimeKind.Local).AddTicks(9540),
                             Description = "",
                             Details = "",
                             Name = "Samsung Galaxy S21+",
@@ -469,7 +472,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 3,
-
+                            DateCreated = new DateTime(2021, 6, 12, 22, 43, 8, 593, DateTimeKind.Local).AddTicks(9566),
                             Description = "",
                             Details = "",
                             Name = "Oppo Reno 5",
@@ -480,7 +483,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 4,
-
+                            DateCreated = new DateTime(2021, 6, 12, 22, 43, 8, 593, DateTimeKind.Local).AddTicks(9569),
                             Description = "",
                             Details = "",
                             Name = "Vivo V21 5G",
@@ -491,7 +494,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 5,
                             CategoryId = 5,
-
+                            DateCreated = new DateTime(2021, 6, 12, 22, 43, 8, 593, DateTimeKind.Local).AddTicks(9571),
                             Description = "",
                             Details = "",
                             Name = "Xiaomi Redmi Note 10",
@@ -502,7 +505,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 6,
                             CategoryId = 6,
-
+                            DateCreated = new DateTime(2021, 6, 12, 22, 43, 8, 593, DateTimeKind.Local).AddTicks(9572),
                             Description = "",
                             Details = "",
                             Name = "Nokia 5.4",
