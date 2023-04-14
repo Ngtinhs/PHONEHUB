@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210615152225_Change_PaymentMethod_Type_To_String_Order_Table")]
+    [Migration("20230415152225_Change_PaymentMethod_Type_To_String_Order_Table")]
     partial class Change_PaymentMethod_Type_To_String_Order_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

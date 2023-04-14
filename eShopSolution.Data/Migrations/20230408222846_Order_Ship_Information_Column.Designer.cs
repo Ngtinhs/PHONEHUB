@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210608222846_Order_Ship_Information_Column")]
+    [Migration("20230408222846_Order_Ship_Information_Column")]
     partial class Order_Ship_Information_Column
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

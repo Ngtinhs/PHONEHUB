@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210603174646_AddRoleColumnInToAppUser")]
+    [Migration("20230403174646_AddRoleColumnInToAppUser")]
     partial class AddRoleColumnInToAppUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

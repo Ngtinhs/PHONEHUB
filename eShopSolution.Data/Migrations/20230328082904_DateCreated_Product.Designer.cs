@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210528082904_DateCreated_Product")]
+    [Migration("20230328082904_DateCreated_Product")]
     partial class DateCreated_Product
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

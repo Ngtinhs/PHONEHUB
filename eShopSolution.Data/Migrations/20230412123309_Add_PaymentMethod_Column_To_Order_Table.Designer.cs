@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210612123309_Add_PaymentMethod_Column_To_Order_Table")]
+    [Migration("20230412123309_Add_PaymentMethod_Column_To_Order_Table")]
     partial class Add_PaymentMethod_Column_To_Order_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

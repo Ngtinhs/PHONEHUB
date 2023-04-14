@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210529182730_AddColumnAddress_AppUserTable")]
+    [Migration("20230329182730_AddColumnAddress_AppUserTable")]
     partial class AddColumnAddress_AppUserTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

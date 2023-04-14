@@ -10,7 +10,7 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20210612154309_StarRating")]
+    [Migration("20230412154309_StarRating")]
     partial class StarRating
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
