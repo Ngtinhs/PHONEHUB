@@ -15,10 +15,8 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="#">All Categories</a></li>
-                    <li><a href="#">Accessories</a></li>
-                    <li><a href="#">Headphones</a></li>
+                    <li><a href="/">Trang chủ</a></li>
+                    @*<li><a href="#">@Model.Product.Category.Name</a></li>*@
                     <li class="active">@Model.Product.Name</li>
                 </ul>
             </div>
@@ -81,68 +79,35 @@
             <div class="col-md-5">
                 <div class="product-details">
                     <h2 class="product-name">@Model.Product.Name</h2>
-                    <div>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
-                    </div>
+                    
                     <div>
                         <h3 class="product-price">@Model.Product.Price.ToString("N0") <span>&#8363;</span> <del class="product-old-price">$990.00</del></h3>
-                        <span class="product-available">In Stock</span>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        @if (Model.Product.Stock <= 0)
+                        {
+                            <span class="product-available">Hết hàng</span>
+                        }
+                        else
+                        {
+                            <span class="product-available">Còn hàng</span>
+                        }
 
-                    <div class="product-options">
-                        <label>
-                            Size
-                            <select class="input-select">
-                                <option value="0">X</option>
-                            </select>
-                        </label>
-                        <label>
-                            Color
-                            <select class="input-select">
-                                <option value="0">Red</option>
-                            </select>
-                        </label>
                     </div>
-
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
-                            </div>
+                    
+                    @if (Model.Product.Stock == 0) 
+                    {
+                    }
+                    else
+                    {
+                        <div class="add-to-cart" style="margin-top:10px">
+                            <button class="add-to-cart-btn" data-id="@Model.Product.Id"><i class="fa fa-shopping-cart"></i> thêm vào giỏ hàng</button>
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-
-                    <ul class="product-btns">
-                        <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-                        <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
-                    </ul>
-
+                    }
                     <ul class="product-links">
-                        <li>Category:</li>
-                        <li><a href="#">Headphones</a></li>
-                        <li><a href="#">Accessories</a></li>
+                        <li>Danh mục:</li>
+                        <li>
+                            @Html.ActionLink(Model.Category.Name, "ViewByCategory", "Home", new { cateId = Model.Category.Id })
+                        </li>
                     </ul>
-
-                    <ul class="product-links">
-                        <li>Share:</li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                    </ul>
-
                 </div>
             </div>
             <!-- /Product details -->
@@ -151,9 +116,9 @@
                 <div id="product-tab">
                     <!-- product tab nav -->
                     <ul class="tab-nav">
-                        <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        <li class="active"><a data-toggle="tab" href="#tab1">Thông số kỹ thuật</a></li>
+                        <li><a data-toggle="tab" href="#tab2">Chi tiết sản phẩm</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Đánh giá (3)</a></li>
                     </ul>
                     <!-- /product tab nav -->
                     <!-- product tab content -->
@@ -169,6 +134,7 @@
                                         string addedTableFormat = removeLastFigure.Insert(6, " class=\"table table-bordered table-striped\"");
                                     }
                                     @Html.Raw(addedTableFormat)
+                                    @*@Html.Raw(Model.Product.Description)*@
                                 </div>
                             </div>
                         </div>
@@ -176,6 +142,11 @@
                         <!-- tab2  -->
                         <div id="tab2" class="tab-pane fade in">
                             <div class="row">
+                                <style>
+                                    #more {
+                                        display: none;
+                                    }
+                                </style>
                                 <div class="col-md-12">
                                     @Html.Raw(Model.Product.Details)
                                 </div>
@@ -376,10 +347,9 @@
 
             <div class="col-md-12">
                 <div class="section-title text-center">
-                    <h3 class="title">Related Products</h3>
+                    <h3 class="title">Sản phẩm liên quan</h3>
                 </div>
             </div>
-
             <!-- product -->
             <div class="col-md-3 col-xs-6">
                 <div class="product">
@@ -439,8 +409,6 @@
                 </div>
             </div>
             <!-- /product -->
-
-            <div class="clearfix visible-sm visible-xs"></div>
 
             <!-- product -->
             <div class="col-md-3 col-xs-6">
@@ -502,3 +470,21 @@
     <!-- /container -->
 </div>
 <!-- /Section -->
+
+<script>
+    function myFunction() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Read more";
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Read less";
+    moreText.style.display = "inline";
+  }
+}
+</script>

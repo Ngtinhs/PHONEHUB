@@ -34,11 +34,13 @@ namespace eShopSolution.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+
             var cultures = new[]
-           {
+            {
                 new CultureInfo("en"),
                 new CultureInfo("vi"),
             };
+
             services.AddControllersWithViews()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
                 .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
@@ -74,7 +76,7 @@ namespace eShopSolution.WebApp
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
              .AddCookie(options =>
              {
-                 options.LoginPath = "/Account/Login";
+                 options.LoginPath = "/vi/Login/Login/";
                  options.AccessDeniedPath = "/User/Forbidden/";
              });
 
@@ -82,6 +84,7 @@ namespace eShopSolution.WebApp
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ISlideApiClient, SlideApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
@@ -120,6 +123,7 @@ namespace eShopSolution.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseMarkdown();
             app.UseStaticFiles();

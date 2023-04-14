@@ -84,6 +84,7 @@ namespace eShopSolution.Application.Catalog.Products
             product.CategoryId = request.CategoryId;
             product.Description = request.Description;
             product.Details = request.Details;
+            product.Stock = request.Stock;
 
             //Save thumbnail image
             if (request.ThumbnailImage != null)
@@ -130,7 +131,7 @@ namespace eShopSolution.Application.Catalog.Products
             //1. Select join
             var query = from p in _context.Products
                         join c in _context.Categories on p.CategoryId equals c.Id
-                        select new { p};
+                        select new { p };
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.p.Name.Contains(request.Keyword));
@@ -138,6 +139,22 @@ namespace eShopSolution.Application.Catalog.Products
             if (request.CategoryId != null && request.CategoryId != 0)
             {
                 query = query.Where(x => x.p.CategoryId == request.CategoryId);
+            }
+
+            if (!string.IsNullOrEmpty(request.SortOption))
+            {
+                switch (request.SortOption)
+                {
+                    case "Tên A-Z":
+                        query = query.OrderBy(x => x.p.Name);
+                        break;
+                    case "Giá thấp đến cao":
+                        query = query.OrderBy(x => x.p.Price);
+                        break;
+                    case "Giá cao đến thấp":
+                        query = query.OrderByDescending(x => x.p.Price);
+                        break;
+                }
             }
 
             //3. Paging
@@ -186,11 +203,18 @@ namespace eShopSolution.Application.Catalog.Products
                                     join p in _context.Products on c.Id equals p.CategoryId
                                     select p.Name).ToListAsync();
 
+            //var category = new CategoryViewModel()
+            //{
+            //    Id = product.CategoryId,
+            //    Name = product.Category.Name,
+            //};
+
             var productViewModel = new ProductViewModel()
             {
                 Id = product.Id,
                 Name = product.Name != null ? product.Name : null,
                 CategoryId = product.CategoryId != 0 ? product.CategoryId : 0,
+                //Category = category,
                 Description = product.Description != null ? product.Description : null,
                 Details = product.Details != null ? product.Details : null,
                 Price = product.Price,
@@ -199,6 +223,17 @@ namespace eShopSolution.Application.Catalog.Products
                 ProductImage = product.ProductImage != null ? product.ProductImage : "no-image.jpg"
             };
             return productViewModel;
+        }
+
+
+        // giảm số lượng sản phẩm trong kho khi khách hàng tăng sl sp
+        public async Task<bool> DecreaseStock(int productId, int quantity)
+        {
+            var product = await _context.Products.FindAsync(productId);
+
+            if (product == null) throw new EShopException($"Cannot find product with id: {productId} ");
+            product.Stock -= quantity;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         #region AddViewCount
@@ -220,14 +255,7 @@ namespace eShopSolution.Application.Catalog.Products
         //    return await _context.SaveChangesAsync() > 0;
         //}
 
-        //public async Task<bool> UpdateStock(int productId, int addedQuantity)
-        //{
-        //    var product = await _context.Products.FindAsync(productId);
 
-        //    if (product == null) throw new EShopException($"Cannot find product with id: {productId} ");
-        //    product.Stock += addedQuantity;
-        //    return await _context.SaveChangesAsync() > 0;
-        //}
         #endregion
 
         #region AddImage
@@ -406,7 +434,6 @@ namespace eShopSolution.Application.Catalog.Products
         //    return new ApiSuccessResult<bool>();
         //}
 
-        #region GetFeaturedProducts
         public async Task<List<ProductViewModel>> GetFeaturedProducts(int take)
         {
             //1. Select join
@@ -431,9 +458,7 @@ namespace eShopSolution.Application.Catalog.Products
 
             return data;
         }
-        #endregion
 
-        #region GetLatestProducts
         public async Task<List<ProductViewModel>> GetLatestProducts(int take)
         {
             //1. Select join
@@ -458,6 +483,6 @@ namespace eShopSolution.Application.Catalog.Products
 
             return data;
         }
-        #endregion
+
     }
 }

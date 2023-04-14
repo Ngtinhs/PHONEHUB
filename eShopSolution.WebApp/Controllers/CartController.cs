@@ -2,40 +2,50 @@
 using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Sales;
 using eShopSolution.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace eShopSolution.WebApp.Controllers
 {
     public class CartController : Controller
     {
         private readonly IProductApiClient _productApiClient;
-
         private readonly IOrderApiClient _orderApiClient;
+        private readonly IUserApiClient _userApiClient;
 
-        public CartController(IProductApiClient productApiClient, IOrderApiClient orderApiClient)
+
+        public CartController(IProductApiClient productApiClient, IOrderApiClient orderApiClient, IUserApiClient userApiClient)
         {
             _productApiClient = productApiClient;
             _orderApiClient = orderApiClient;
+            _userApiClient = userApiClient;
         }
 
         public IActionResult Index()
         {
+
             return View();
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Checkout()
         {
             return View(GetCheckoutViewModel());
         }
 
         [HttpPost]
+        [Authorize]
         //[Consumes("multipart/form-data")]
         public async Task<IActionResult> Checkout(CheckoutViewModel request)
         {
@@ -43,6 +53,10 @@ namespace eShopSolution.WebApp.Controllers
             {
                 return View(request);
             }
+
+            // Tìm Guid của người mua để gán vào order
+            var users = await _userApiClient.GetAll();
+            var x = users.FirstOrDefault(x => x.Email == request.CheckoutModel.Email);
 
             // Order detail là lấy từ session chứ không lấy qua CheckoutViewModel, vì model binding không có bind cái danh sách sản phẩm
             var model = GetCheckoutViewModel();
@@ -59,17 +73,36 @@ namespace eShopSolution.WebApp.Controllers
 
             var checkoutRequest = new CheckoutRequest()
             {
+                UserID = x.Id,
                 Address = request.CheckoutModel.Address,
                 Name = request.CheckoutModel.Name,
                 Email = request.CheckoutModel.Email,
                 PhoneNumber = request.CheckoutModel.PhoneNumber,
-                OrderDetails = orderDetails
+                OrderDetails = orderDetails,
             };
 
             var result = await _orderApiClient.CreateOrder(checkoutRequest);
 
             if (result)
             {
+                // mail admin when have new email
+                //var message = await MailUtils.MailUtils.SendGmail("hytranluan@gmail.com", "hytranluan@gmail.com",
+                //                                                  "ĐƠN HÀNG MỚI", $"Đơn đặt hàng mới từ khách hàng có số điện thoại là {checkoutRequest.PhoneNumber} và email là {checkoutRequest.Email} cần duyệt",
+                //                                                  "your_email_here", "your_password_here");
+                var email1 = new EmailService.EmailService();
+                email1.Send("hytranluan@gmail.com", "hytranluan@gmail.com", "ĐƠN HÀNG MỚI", $"Đơn đặt hàng mới từ khách hàng có số điện thoại là {checkoutRequest.PhoneNumber} và email là {checkoutRequest.Email} cần duyệt");
+
+                // mail client when placed order successfully
+                //var clientMessage = await MailUtils.MailUtils.SendGmail("hytranluan@gmail.com", checkoutRequest.Email,
+                //                                                 "ĐẶT HÀNG THÀNH CÔNG", $"Quý khách đã đặt hàng thành công ! Electro xin cảm ơn quý khách hàng.",
+                //                                                 "your_email_here", "your_password_here");
+                var email2 = new EmailService.EmailService();
+                email2.Send("hytranluan@gmail.com", checkoutRequest.Email, "ĐẶT HÀNG THÀNH CÔNG", $"Quý khách đã đặt hàng thành công ! Electro xin cảm ơn quý khách hàng.");
+
+                var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+                var currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
+                currentCart.Clear();
+                HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
                 TempData["SuccessMsg"] = "Order purchased successful";
                 return View(request);
             }
@@ -80,10 +113,20 @@ namespace eShopSolution.WebApp.Controllers
             return View(request);
         }
 
-        private CheckoutViewModel GetCheckoutViewModel()
+        private CheckoutViewModel GetCheckoutViewModel() 
         {
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+
+            //var claims = ClaimsPrincipal.Current.Identities.First().Claims.ToList();
+            var claims = User.Claims.ToList();
+           
+            var name = claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName).Value;
+            var email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email).Value;
+            var address = claims.FirstOrDefault(x => x.Type == ClaimTypes.StreetAddress).Value;
+            var phoneNumber = claims.FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone).Value;
+
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
+
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
 
@@ -91,6 +134,10 @@ namespace eShopSolution.WebApp.Controllers
             {
                 CartItems = currentCart,
                 CheckoutModel = new CheckoutRequest(),
+                Name = name.ToString(),
+                Email = email.ToString(),
+                Address = address.ToString(),
+                PhoneNumber = phoneNumber.ToString()
             };
             return checkoutVm;
         }
@@ -123,26 +170,34 @@ namespace eShopSolution.WebApp.Controllers
 
             if (currentCart.Any(x => x.ProductId == id))
             {
+                if(currentCart.First(x => x.ProductId == id).Quantity == product.Stock)
+                {
+                    return Ok(currentCart);
+                }
+
                 quantity = currentCart.First(x => x.ProductId == id).Quantity + quantity;
+                currentCart.First(x => x.ProductId == id).Quantity = quantity;
             }
-
-            var cartItem = new CartItemViewModel()
+            else
             {
-                ProductId = id,
-                Image = product.ThumbnailImage,
-                Name = product.Name,
-                Price = product.Price,
-                Quantity = quantity
-            };
+                var cartItem = new CartItemViewModel()
+                {
+                    ProductId = id,
+                    Image = product.ThumbnailImage,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Quantity = quantity
+                };
 
-            currentCart.Add(cartItem);
+                currentCart.Add(cartItem);
+            }
 
             HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
 
             return Ok(currentCart);
         }
 
-        public IActionResult UpdateCart(int id, int quantity)
+        public async Task<IActionResult> UpdateCart(int id, int quantity)
         {
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
 
@@ -155,10 +210,15 @@ namespace eShopSolution.WebApp.Controllers
             {
                 if (item.ProductId == id)
                 {
+                    var product = await _productApiClient.GetById(item.ProductId);
+                    var productStock = product.Stock;
                     if (quantity == 0)
                     {
                         currentCart.Remove(item);
                         break;
+                    }else if(quantity > productStock)
+                    {
+                        return StatusCode(406, "Số lượng mua lớn hơn số lượng trong kho của sán phẩm !");
                     }
                     item.Quantity = quantity;
                 }
