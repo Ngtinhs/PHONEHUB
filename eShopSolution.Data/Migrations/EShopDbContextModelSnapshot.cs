@@ -162,7 +162,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "6aecadf4-ca0e-458b-91a5-b430f361d83e",
+                            ConcurrencyStamp = "45c68a23-cc5e-48ca-99d0-a42c4d863a21",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -235,14 +235,14 @@ namespace eShopSolution.Data.Migrations
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
                             Address = "123 An Dương Vương P.8 Q.5",
-                            ConcurrencyStamp = "817c936c-4367-41f1-9276-a820bb62be67",
+                            ConcurrencyStamp = "c3bcf8b1-e264-4485-adf0-363f21f1b31c",
                             Email = "hytranluan@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "Luan Hy",
                             NormalizedEmail = "HYTRANLUAN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIBCTVmaPePYVAX4uZjHmlUyFQ9/Z0V2hG3tOJGzLlaalzxvSyOXqZCfbGSmN0j7Jg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKVBBlMrmMlMt0Yg0uyii07dHL4bgLL66e6yft/OspKL2nUOiOMCJSf9nGCh3Op5PQ==",
                             PhoneNumber = "0765006381",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -256,6 +256,8 @@ namespace eShopSolution.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
@@ -298,6 +300,34 @@ namespace eShopSolution.Data.Migrations
                             Id = 6,
                             Name = "Nokia"
                         });
+                });
+
+            modelBuilder.Entity("eShopSolution.Data.Entities.Coupon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Describe")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<int>("Promotion")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Language", b =>
@@ -343,8 +373,14 @@ namespace eShopSolution.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CouponId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShipAddress")
                         .HasColumnType("nvarchar(max)");
@@ -358,10 +394,15 @@ namespace eShopSolution.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CouponId");
 
                     b.HasIndex("UserId");
 
@@ -391,6 +432,8 @@ namespace eShopSolution.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId")
@@ -413,6 +456,7 @@ namespace eShopSolution.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
+                        .HasMaxLength(100000000)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductImage")
@@ -421,6 +465,7 @@ namespace eShopSolution.Data.Migrations
 
                     b.Property<int>("Stock")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(100)
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
@@ -432,14 +477,14 @@ namespace eShopSolution.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             CategoryId = 1,
-                            DateCreated = new DateTime(2021, 6, 9, 5, 51, 22, 243, DateTimeKind.Local).AddTicks(3622),
+                            DateCreated = new DateTime(2021, 6, 15, 22, 22, 25, 336, DateTimeKind.Local).AddTicks(5100),
                             Description = "",
                             Details = "",
                             Name = "iPhone 12 Pro",
@@ -450,7 +495,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 2,
-                            DateCreated = new DateTime(2021, 6, 9, 5, 51, 22, 244, DateTimeKind.Local).AddTicks(1051),
+                            DateCreated = new DateTime(2021, 6, 15, 22, 22, 25, 337, DateTimeKind.Local).AddTicks(2261),
                             Description = "",
                             Details = "",
                             Name = "Samsung Galaxy S21+",
@@ -461,7 +506,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 3,
-                            DateCreated = new DateTime(2021, 6, 9, 5, 51, 22, 244, DateTimeKind.Local).AddTicks(1078),
+                            DateCreated = new DateTime(2021, 6, 15, 22, 22, 25, 337, DateTimeKind.Local).AddTicks(2288),
                             Description = "",
                             Details = "",
                             Name = "Oppo Reno 5",
@@ -472,7 +517,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 4,
-                            DateCreated = new DateTime(2021, 6, 9, 5, 51, 22, 244, DateTimeKind.Local).AddTicks(1081),
+                            DateCreated = new DateTime(2021, 6, 15, 22, 22, 25, 337, DateTimeKind.Local).AddTicks(2291),
                             Description = "",
                             Details = "",
                             Name = "Vivo V21 5G",
@@ -483,7 +528,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 5,
                             CategoryId = 5,
-                            DateCreated = new DateTime(2021, 6, 9, 5, 51, 22, 244, DateTimeKind.Local).AddTicks(1083),
+                            DateCreated = new DateTime(2021, 6, 15, 22, 22, 25, 337, DateTimeKind.Local).AddTicks(2293),
                             Description = "",
                             Details = "",
                             Name = "Xiaomi Redmi Note 10",
@@ -494,7 +539,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = 6,
                             CategoryId = 6,
-                            DateCreated = new DateTime(2021, 6, 9, 5, 51, 22, 244, DateTimeKind.Local).AddTicks(1085),
+                            DateCreated = new DateTime(2021, 6, 15, 22, 22, 25, 337, DateTimeKind.Local).AddTicks(2295),
                             Description = "",
                             Details = "",
                             Name = "Nokia 5.4",
@@ -503,13 +548,54 @@ namespace eShopSolution.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("eShopSolution.Data.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PublishedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("eShopSolution.Data.Entities.Order", b =>
                 {
+                    b.HasOne("eShopSolution.Data.Entities.Coupon", "Coupon")
+                        .WithMany("Orders")
+                        .HasForeignKey("CouponId");
+
                     b.HasOne("eShopSolution.Data.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("Coupon");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.OrderDetail", b =>
@@ -542,14 +628,38 @@ namespace eShopSolution.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("eShopSolution.Data.Entities.Review", b =>
+                {
+                    b.HasOne("eShopSolution.Data.Entities.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eShopSolution.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("eShopSolution.Data.Entities.AppUser", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("eShopSolution.Data.Entities.Coupon", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Order", b =>
@@ -560,6 +670,8 @@ namespace eShopSolution.Data.Migrations
             modelBuilder.Entity("eShopSolution.Data.Entities.Product", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

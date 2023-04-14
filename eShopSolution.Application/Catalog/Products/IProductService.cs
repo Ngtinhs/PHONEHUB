@@ -1,10 +1,6 @@
-﻿using eShopSolution.ViewModels.Catalog.ProductImages;
-using eShopSolution.ViewModels.Catalog.Products;
+﻿using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
-using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace eShopSolution.Application.Catalog.Products
@@ -36,5 +32,7 @@ namespace eShopSolution.Application.Catalog.Products
         Task<List<ProductViewModel>> GetLatestProducts(int take);
 
         Task<bool> DecreaseStock(int productId, int quantity);
+
+        Task<int> AddReview(ProductDetailViewModel model);
     }
 }

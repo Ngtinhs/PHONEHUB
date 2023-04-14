@@ -4,6 +4,7 @@ using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
 using eShopSolution.ViewModels.Utilities.Enums;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -22,7 +23,7 @@ namespace eShopSolution.ApiIntegration
         private readonly IConfiguration _configuration;
 
         public OrderApiClient(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
-            :base(httpClientFactory, httpContextAccessor, configuration)
+            : base(httpClientFactory, httpContextAccessor, configuration)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
@@ -42,7 +43,7 @@ namespace eShopSolution.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"/api/orders/createOrder", httpContent);
-            return true;
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<PagedResult<OrderViewModel>> GetPagings(GetManageOrderPagingRequest request)
