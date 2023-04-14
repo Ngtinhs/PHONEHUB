@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Westwind.AspNetCore.Markdown;
 
 namespace eShopSolution.WebApp
 {
@@ -86,6 +87,24 @@ namespace eShopSolution.WebApp
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IOrderApiClient, OrderApiClient>();
+
+            services.AddMarkdown();
+
+            // We need to use MVC so we can use a Razor Configuration Template
+            services.AddMvc()
+                // have to let MVC know we have a controller
+                .AddApplicationPart(typeof(MarkdownPageProcessorMiddleware).Assembly);
+
+            IMvcBuilder builder = services.AddRazorPages();
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            #if DEBUG
+            if (environment == Environments.Development)
+            {
+                builder.AddRazorRuntimeCompilation();
+            }
+            #endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,6 +121,7 @@ namespace eShopSolution.WebApp
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseMarkdown();
             app.UseStaticFiles();
             app.UseAuthentication();
 

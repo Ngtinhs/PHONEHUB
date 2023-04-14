@@ -8,8 +8,14 @@ namespace eShopSolution.ApiIntegration
 {
     public interface ICategoryApiClient
     {
-        Task<List<CategoryVm>> GetAll(string languageId);
+        Task<List<CategoryViewModel>> GetAll();
 
-        Task<CategoryVm> GetById(string languageId, int id);
+        Task<CategoryViewModel> GetById(int id);
+
+        Task<bool> CreateCategory(CategoryCreateRequest request);
+
+        Task<bool> UpdateCategory(CategoryUpdateRequest request);
+
+        Task<bool> DeleteCategory(int id);
     }
 }
