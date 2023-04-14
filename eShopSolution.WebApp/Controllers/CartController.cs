@@ -182,7 +182,7 @@ namespace eShopSolution.WebApp.Controllers
                         + "</table>";
                 }
 
-                var templateHtml = "<h1>Electro Phone Store</h1>" + "<br>"
+                var templateHtml = "<h1>PhoneHub Phone Store</h1>" + "<br>"
                             + $"<h2>Quý khách đã đặt hàng thành công ! Đơn hàng của quý khách sẽ được duyệt sớm"
                             + "<br>"
                             + $"Mã đơn là {result}"
@@ -291,7 +291,7 @@ namespace eShopSolution.WebApp.Controllers
                 //Amount = Convert.ToInt64(TempData["TotalAmount"]),
                 Amount = price,
                 Currency = "VND",
-                Description = "Đặt điện thoại tại Electro",
+                Description = "Đặt điện thoại tại PhoneHub",
                 Source = stripeToken,
                 Shipping = shipping,
                 ReceiptEmail = stripeEmail,
@@ -412,7 +412,7 @@ namespace eShopSolution.WebApp.Controllers
                         + "</table>";
                 }
 
-                var templateHtml = "<h1>Electro Phone Store</h1>" + "<br>"
+                var templateHtml = "<h1>PhoneHub Phone Store</h1>" + "<br>"
                             + $"<h2>Quý khách đã đặt hàng thành công ! Đơn hàng của quý khách sẽ được duyệt sớm"
                             + "<br>"
                             + $"Mã đơn là {result}"

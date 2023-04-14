@@ -1,13 +1,13 @@
 /*
-Template Name: Electro - HTML Ecommerce Template
+Template Name: PhoneHub - HTML Ecommerce Template
 Author: yaminncco
 
 Colors:
 	Body 		: #333
 	Headers 	: #2B2D42
 	Primary 	: #D10024
-	Dark 		: #15161D ##1E1F29
-	Grey 		: #E4E7ED #FBFBFC #8D99AE #B9BABC
+	Dark 		: #337ab7 ##1E1F29
+	Grey 		: #E4E7ED #FBFBFC #8D99AE #fff
 
 Fonts: Montserrat
 
@@ -84,6 +84,15 @@ ul, ol {
   margin: 0;
   padding: 0;
   list-style: none
+}
+
+
+.fixed-topp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 /*----------------------------*\
@@ -444,9 +453,17 @@ textarea.input {
 \*----------------------------*/
 
 #header {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  background-color: #15161D;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #337ab7;
+}
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 .header-logo {
@@ -672,7 +689,7 @@ textarea.input {
     position: fixed;
     left: 0;
     top: 0;
-    background: #15161D;
+    background: #337ab7;
     height: 100vh;
     max-width: 250px;
     width: 0%;
@@ -2002,8 +2019,8 @@ textarea.input {
 ===========================================================*/
 
 #footer {
-  background: #15161D;
-  color: #B9BABC;
+  background: #337ab7;
+  color: #fff;
 }
 
 #bottom-footer {
@@ -2026,7 +2043,7 @@ textarea.input {
 }
 
 .footer-links li a {
-  color: #B9BABC;
+  color: #fff;
 }
 
 .footer-links li i {
@@ -2052,7 +2069,7 @@ textarea.input {
 }
 
 .footer-payments li a {
-  color: #15161D;
+  color: #337ab7;
   font-size: 36px;
   display: block;
 }

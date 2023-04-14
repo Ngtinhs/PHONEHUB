@@ -38,6 +38,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!--sweet aler 2-->
+
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -258,6 +260,14 @@
     <script>
         var siteController = new SiteController();
         siteController.initialize();
+
+        $(window).scroll(function() {
+  if ($(window).scrollTop() > 0) {
+    $('#header').addClass('fixed-top');
+  } else {
+    $('#header').removeClass('fixed-top');
+  }
+});
     </script>
     @RenderSection("scripts", required: false)
 </body>
