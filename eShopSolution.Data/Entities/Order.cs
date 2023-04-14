@@ -1,4 +1,5 @@
 ﻿using eShopSolution.Data.Enums;
+using eShopSolution.ViewModels.Utilities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,12 +13,14 @@ namespace eShopSolution.Data.Entities
 
         public DateTime OrderDate { set; get; }
 
-        public OrderStatus Status { set; get; }
+        public Enums.OrderStatus Status { set; get; }
         public string ShipName { set; get; }
 
         public string ShipAddress { set; get; }
 
         public string ShipPhoneNumber { set; get; }
+
+        public PaymentMethod PaymentMethod { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
 
