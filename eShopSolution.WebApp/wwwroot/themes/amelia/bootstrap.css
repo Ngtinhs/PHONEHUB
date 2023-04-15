@@ -3102,7 +3102,7 @@ input[type="submit"].btn.btn-mini {
 .alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
   background-color: #fcf8e3;
   border: 1px solid #fbeed5;
   -webkit-border-radius: 4px;
@@ -3168,7 +3168,7 @@ input[type="submit"].btn.btn-mini {
   font-weight: bold;
   line-height: 20px;
   color: #aaaaaa;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
   text-transform: uppercase;
 }
 .nav li + .nav-header {
@@ -3183,7 +3183,7 @@ input[type="submit"].btn.btn-mini {
 .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
 .nav-list > li > a {
   padding: 3px 15px;
@@ -4909,7 +4909,7 @@ blockquote small {
   color: rgba(255, 255, 255, 0.6);
 }
 .muted {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 1);
 }
 body {
   background-color: #0f8790;
@@ -4999,7 +4999,7 @@ hr {
     border: 2px solid rgba(255, 255, 255, 0.9);
   }
   .navbar .nav-collapse .nav-header {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 1);
   }
   .navbar-inverse .nav-collapse .nav li > a:hover,
   .navbar-inverse .nav-collapse .dropdown-menu a:hover {
@@ -5099,7 +5099,7 @@ div.subnav-fixed {
 }
 .nav-tabs,
 .nav-tabs > li > a {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 1);
 }
 .nav-tabs > li > a {
   background-color: #3CB9C6;

@@ -3100,7 +3100,7 @@ input[type="submit"].btn.btn-mini {
 .alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 21px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
   background-color: #ee7026;
   border: 1px solid #ed4318;
   -webkit-border-radius: 4px;
@@ -3166,7 +3166,7 @@ input[type="submit"].btn.btn-mini {
   font-weight: bold;
   line-height: 21px;
   color: #999999;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
   text-transform: uppercase;
 }
 .nav li + .nav-header {
@@ -3181,7 +3181,7 @@ input[type="submit"].btn.btn-mini {
 .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
 .nav-list > li > a {
   padding: 3px 15px;
