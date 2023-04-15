@@ -8,35 +8,34 @@ namespace eShopSolution.ViewModels.System.Users
         public RegisterRequestValidator()
         {
             // Đây là một phương thức của abstract validator
-            RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required")
-                .MaximumLength(200).WithMessage("First name cannot over 200 characters");
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Tên khách hàng không được để trống")
+                .MaximumLength(200).WithMessage("Tên không được quá 200 ký tự");
 
-            RuleFor(x => x.LastName).NotEmpty().WithMessage("First name is required")
-                .MaximumLength(200).WithMessage("Last name cannot over 200 characters");
-
-            RuleFor(x => x.Dob).GreaterThan(DateTime.Now.AddYears(-100))
-                .WithMessage("Birthday cannot greatr than 100 years");
-
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Email is required")
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email không được để trống")
                 .Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")
-                .WithMessage("Email format not match");
+                .WithMessage("Định dạng Email không đúng");
 
-            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Phone number is required");
+            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Số điện thoại không được để trống")
+                .MaximumLength(12).WithMessage("Số điện thoại không được quá 12 kí tự");
 
-            RuleFor(x => x.UserName).NotEmpty().WithMessage("User name is required");
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên tài khoản không được để trống");
 
-            RuleFor(x => x.UserName).NotEmpty().WithMessage("User name is required");
-            RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required")
-                .MinimumLength(6).WithMessage("Password is at least 6 characters");
+            RuleFor(x => x.Address).NotEmpty().WithMessage("Địa chỉ không được để trống")
+                .MaximumLength(500).WithMessage("Địa chỉ không được quá 500 kí tự");
+
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Mật khẩu không được để trống")
+                .MinimumLength(8).WithMessage("Mật khẩu phải ít nhất 8 kí tự")
+                .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
+                .WithMessage("Mật khẩu phải bao gồm chữ cái viết hoa, thường và một con số");
 
             // Khi ta viết => {} thì sẽ tự động hiểu request là của Register và context là của CustomContext
             RuleFor(x => x).Custom((request, context) =>
-            {
-                if (request.Password != request.ConfirmPassword)
-                {
-                    context.AddFailure("Confirm password is not match");
-                }
-            });
+              {
+                  if (request.Password != request.ConfirmPassword)
+                  {
+                      context.AddFailure("Mật khẩu xác nhận không khớp với mật khẩu");
+                  }
+              });
         }
     }
 }

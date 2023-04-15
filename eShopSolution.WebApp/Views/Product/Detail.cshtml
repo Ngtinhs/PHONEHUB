@@ -1,0 +1,236 @@
+﻿@model ProductDetailViewModel
+@using eShopSolution.ViewModels.Catalog.Products
+@{
+    ViewData["Title"] = "Detail";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    var culture = CultureInfo.CurrentCulture;
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
+
+@{
+    //ViewBag.Title = Model.Title;
+    var comments = (IEnumerable<ReviewViewModel>)ViewBag.Comments;
+    var ratingSum = ViewBag.RatingSum;
+    var ratingCount = ViewBag.RatingCount;
+
+    decimal rating = 0;
+    if (ratingCount > 0)
+    {
+        rating = (ratingSum / ratingCount);
+    }
+    var totalRating = decimal.Parse(rating.ToString());
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Trang chủ</a></li>
+                    @*<li><a href="#">@Model.Product.Category.Name</a></li>*@
+                    <li class="active">@Model.Product.Name</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product main img -->
+            <!-- Product thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@(Configuration["BaseAddress"] + Model.Product.ProductImage)" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product thumb imgs -->
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name">@Model.Product.Name</h2>
+
+                    <div>
+                        <h3 class="product-price">@Model.Product.Price.ToString("N0") <span>&#8363;</span> </h3>
+                        @if (Model.Product.Stock <= 0)
+                        {
+                            <span class="product-available">Hết hàng</span>
+                        }
+                        else
+                        {
+                            <span class="product-available">Còn hàng</span>
+                        }
+                    </div>
+
+                    @if (Model.Product.Stock == 0)
+                    {
+                    }
+                    else
+                    {
+                        <div class="add-to-cart" style="margin-top:10px">
+                            <button class="add-to-cart-btn" data-id="@Model.Product.Id"><i class="fa fa-shopping-cart"></i> thêm vào giỏ hàng</button>
+                        </div>
+                    }
+                    <ul class="product-links">
+                        <li>Danh mục:</li>
+                        <li>
+                            @Html.ActionLink(Model.Category.Name, "ViewByCategory", "Home", new { cateId = Model.Category.Id })
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /Product details -->
+            <!-- Product tab -->
+            <div class="col-md-12">
+                <div id="product-tab">
+                    <!-- product tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Thông số kỹ thuật</a></li>
+                        <li><a data-toggle="tab" href="#tab2">Chi tiết sản phẩm</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Đánh giá</a></li>
+                    </ul>
+                    <!-- /product tab nav -->
+                    <!-- product tab content -->
+                    <div class="tab-content">
+                        <!-- tab1  -->
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @{
+                                        string html = @Model.Product.Description;
+                                        string removeFirstFigure = html.Length >= 22 ? html.Remove(0, 22) : html;
+                                        string removeLastFigure = removeFirstFigure.Remove(removeFirstFigure.Length - 9);
+                                        string addedTableFormat = removeLastFigure.Insert(6, " class=\"table table-bordered table-striped\"");
+                                    }
+                                    @Html.Raw(addedTableFormat)
+                                    @*@Html.Raw(Model.Product.Description)*@
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
+                        <!-- tab2  -->
+                        <div id="tab2" class="tab-pane fade in">
+                            <div class="row">
+                                <style>
+                                    #more {
+                                        display: none;
+                                    }
+                                </style>
+                                <div class="col-md-12">
+                                    @Html.Raw(Model.Product.Details)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab2  -->
+                        <!-- tab3  -->
+                        <div id="tab3" class="tab-pane fade in">
+                            <div class="row">
+                                @foreach (var c in comments)
+                                {
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span style="font-weight:bold">@c.UserName</span> <br />
+                                            <i>@c.PublishedDate</i>
+                                            <br />
+                                            @for (var i = 1; i <= c.Rating; i++)
+                                            {
+                                                <span class="starGlowN"></span>
+                                            }
+                                            @for (var i = (c.Rating + 1); i <= 5; i++)
+                                            {
+                                                <span class="starFadeN"></span>
+                                            }
+                                        </div>
+                                        <div class="col-md-9">
+                                            @Html.Raw(c.Comments.Replace("\n", "<br />"))
+                                        </div>
+                                    </div>
+                                }
+                                <hr />
+                                <partial name="_CommentBox" />
+                            </div>
+                        </div>
+                        <!-- /tab3  -->
+                    </div>
+                    <!-- /product tab content  -->
+                </div>
+            </div>
+            <!-- /product tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+@*Read more button*@
+<script>
+    function myFunction() {
+        var dots = document.getElementById("dots");
+        var moreText = document.getElementById("more");
+        var btnText = document.getElementById("myBtn");
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Read more";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Read less";
+            moreText.style.display = "inline";
+        }
+    }
+
+    function SCRate() {
+    for (var i = 1; i <= @totalRating; i++) {
+        $("#sRate" + i).attr('class', 'starGlowN');
+    }
+    }
+    $(function(){
+        SCRate();
+    });
+</script>

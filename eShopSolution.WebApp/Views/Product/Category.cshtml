@@ -1,0 +1,46 @@
+﻿@model ProductCategoryViewModel
+@{
+    ViewData["Title"] = Model.Category.Name + (Model.Products.PageIndex == 1 ? "" : " - " + _loc["Page"] + " " + Model.Products.PageIndex);
+    ViewData["Description"] = Model.Category.Name + (Model.Products.PageIndex == 1 ? "" : " - " + _loc["Page"] + " " + Model.Products.PageIndex);
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    var culture = CultureInfo.CurrentCulture;
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
+<ul class="breadcrumb">
+    <li><a href="index.html">Home</a> <span class="divider">/</span></li>
+    <li class="active">Products Name</li>
+</ul>
+<h3> @Model.Category.Name <small class="pull-right"> 40 <localize>available products</localize> </small></h3>
+<hr class="soft" />
+
+<div class="tab-content">
+    <div class="tab-pane  active" id="blockView">
+            <ul class="thumbnails">
+                @for (int i = 0; i < Model.Products.Items.Count; i++)
+                {
+                    var item = Model.Products.Items[i];
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <a href="/@culture.Name/@_loc["products"]/@item.Id"><img src="@(Configuration["BaseAddress"] + @item.ThumbnailImage)" alt="@item.Name" /></a>
+                            <div class="caption">
+                                <h5>@item.Name</h5>
+                                <p>
+                                    @item.Description
+                                </p>
+                                <h4 style="text-align:center">
+                                    <a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
+                                    <a class="btn" href="#"><localize>Add to</localize> <i class="icon-shopping-cart"></i></a>
+                                    <a class="btn btn-primary" href="#">@item.Price.ToString("C", culture)</a>
+                                </h4>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        <hr class="soft" />
+    </div>
+</div>
+
+@await Component.InvokeAsync("Pager", Model.Products)
+<br class="clr" />

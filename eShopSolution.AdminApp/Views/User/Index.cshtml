@@ -2,21 +2,52 @@
 @model PagedResult<eShopSolution.ViewModels.System.Users.UserViewModel>
 
 @{
-    ViewData["Title"] = "Danh sách người dùng";
+    ViewData["Title"] = "Danh sách khách hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section Scripts{ 
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="container-fluid">
-    <h1 class="mt-4">Danh sách người dùng</h1>
+    <h1 class="mt-4">Danh sách khách hàng</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Danh sách người dùng</li>
+        <li class="breadcrumb-item"><a style="color: #0779e4;" href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách khách hàng</li>
     </ol>
-    <div class="card mb-4">
+    <div class="card mb-12">
         <div class="card-header">
-            <a class="btn btn-success" asp-action="Create" asp-controller="User">Tạo mới</a>
+            <div class="row">
+                <div class="col-md-7 col-xs-12">
+                </div>
+                <div class="col-md-5 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                @*name: là tên tham số*@
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                <button type="button" onclick="window.location.href='/User/Index'" class="btn btn-secondary">Đặt lại</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <div class="card-body">
+                @if (ViewBag.SuccessMsg != null)
+                {
+                    <div id="msgAlert" class="alert alert-success" role="alert">
+                        @ViewBag.SuccessMsg
+                    </div>
+                }
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -25,52 +56,44 @@
                                 Tên
                             </th>
                             <th>
-                                Họ
-                            </th>
-                            <th>
                                 Số điện thoại
-                            </th>
-                            <th>
-                                Tài khoản
                             </th>
                             <th>
                                 Email
                             </th>
-                            <th></th>
+                            <th class="text-center">
+                                Thao tác
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.Items)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                </td>
-                            </tr>
+
+                            if (item.UserName != "admin")
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-primary">@Html.ActionLink("Xem chi tiết", "Details", new { id = item.Id })</button>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
             </div>
-            @*truyền Model PagedResult vào vì hàm InvokeAsync của class PagerViewComponent nhận 1
-            tham số object PagedResult*@
-            @await Component.InvokeAsync("Pager",Model)
+            @*truyền Model PagedResult vào vì hàm InvokeAsync của class PagerViewComponent nhận 1 
+                tham số object PagedResult*@
+            @await Component.InvokeAsync("Pager",Model) 
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace eShopSolution.Utilities.Exceptions
 {
-    public class EShopException : Exception
+   public class EShopException : Exception
     {
         public EShopException()
         {

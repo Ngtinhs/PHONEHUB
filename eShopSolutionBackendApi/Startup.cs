@@ -1,5 +1,9 @@
-﻿using eShopSolution.Application.Catalog.Products;
+﻿using eShopSolution.Application.Catalog.Categories;
+using eShopSolution.Application.Catalog.Orders;
+using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
+using eShopSolution.Application.System.Languages;
+using eShopSolution.Application.System.Roles;
 using eShopSolution.Application.System.Users;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
@@ -18,10 +22,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
+using Newtonsoft.Json.Serialization;
+using eShopSolution.Application.Catalog.Coupons;
 
 namespace eShopSolutionBackendApi
 {
@@ -41,17 +51,31 @@ namespace eShopSolutionBackendApi
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
             // Cần thêm service này khi viết API đăng ký đăng nhập
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(options =>
+                {
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<EShopDbContext>()
                 .AddDefaultTokenProviders();
 
             //Declare DI
             services.AddTransient<IStorageService, FileStorageService>();
-            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductService, eShopSolution.Application.Catalog.Products.ProductService>();
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<ILanguageService, LanguageService>();
+            services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IOrderService, eShopSolution.Application.Catalog.Orders.OrderService>();
+            services.AddTransient<ICouponService, eShopSolution.Application.Catalog.Coupons.CouponService>();
 
             //fluent validator
             // ta có hai cách register validator
@@ -68,7 +92,7 @@ namespace eShopSolutionBackendApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
 
-                // Mỗi khi gọi swagger sẽ truyền vào một header tên Bearer này
+                // Mỗi khi gọi swagger sẽ truyền vào một header tên Bearer để authentication này
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
@@ -129,6 +153,8 @@ namespace eShopSolutionBackendApi
                     IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
                 };
             });
+
+            services.AddMvc().AddNewtonsoftJson();
         }
 
         private void UserService()
