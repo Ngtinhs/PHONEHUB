@@ -28,17 +28,20 @@
                 <div class="col-md-5 col-xs-12">
                     <form asp-action="Index" asp-controller="Product" method="get">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <select name="categoryId" onchange="this.form.submit()" asp-items="@ViewBag.Categories" class="form-control">
                                     <option>Chọn danh mục</option>
                                 </select>
                             </div>
-                            <div class="col-md-5">
+               
+                            <div class="col-md-3">
                                 @*name: là tên tham số*@
-                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" placeholder="Tìm kiếm sản phẩm" class="form-control" />
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-md-3">
                                 <button type="button" onclick="window.location.href='/Product/Index'" class="btn btn-secondary">Đặt lại</button>
                             </div>
                         </div>
