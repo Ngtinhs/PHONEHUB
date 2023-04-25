@@ -82,7 +82,7 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                            <div class="form-group" id="coupon-input" style="width:300px">
+                            @*<div class="form-group" id="coupon-input" style="width:300px">
                                 <label>Bạn có coupon giảm giá?</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="coupon-input-control" placeholder="Nhập mã Coupon">
@@ -90,7 +90,7 @@
                                         <button class="btn btn-primary" id="btn-apply-coupon">Áp dụng</button>
                                     </span>
                                 </div>
-                            </div>
+                            </div>*@
                         <div class="cart_navigation">
                             <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Tiếp tục mua hàng</a>
                             <a class="checkout-btn" href="/@culture/Cart/Checkout"><i class="fa fa-check"></i> Tiến hành thanh toán</a>
@@ -98,18 +98,18 @@
                     }
                     else
                     {
-                            <div class="form-group" id="coupon-input" style="width:300px">
-                                <label>Bạn có coupon giảm giá?</label>
+                           @* <div class="form-group" id="coupon-input" style="width:300px">
+                                <label>bạn có coupon giảm giá?</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="coupon-input-control" placeholder="Nhập mã Coupon">
+                                    <input type="text" class="form-control" id="coupon-input-control" placeholder="nhập mã coupon">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary" id="btn-apply-coupon" >Áp dụng</button>
+                                        <button class="btn btn-primary" id="btn-apply-coupon" >áp dụng</button>
                                     </span>
                                 </div>
-                            </div>
+                            </div>*@
                         <div class="cart_navigation">
-                            <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; Tiếp tục mua hàng</a>
-                            <a class="checkout-btn" asp-action="Login" asp-controller="Login"><i class="fa fa-check"></i> Tiến hành thanh toán</a>
+                            <a class="continue-btn" href="/"><i class="fa fa-arrow-left"> </i>&nbsp; tiếp tục mua hàng</a>
+                            <a class="checkout-btn" asp-action="login" asp-controller="login"><i class="fa fa-check"></i> tiến hành thanh toán</a>
                         </div>
                     }
                 </div>
