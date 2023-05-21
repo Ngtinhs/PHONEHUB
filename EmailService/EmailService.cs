@@ -33,7 +33,7 @@ namespace EmailService
             // send email
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("contact.phonehub.vn@gmail.com", "dufnzrzjdhlfzrwz");
+            smtp.Authenticate("contact.phonehub.vn@gmail.com", "prjltffdhrshbius");
 
             try
             {

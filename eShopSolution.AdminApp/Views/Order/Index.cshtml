@@ -7,18 +7,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Scripts{
-    <script>
-        setTimeout(function () {
-            $('#msgAlert').fadeOut('slow');
-        }, 2000);
-    </script>
-    <script src="~/js/order.js"></script>
-    <script>
-        var orderController = new OrderController();
-        orderController.initialize();
-    </script>
-}
 
 <div class="container-fluid">
     <h1 class="mt-4">Danh sách đơn hàng</h1>
@@ -148,6 +136,91 @@
             @*truyền Model vào hàm InvokeAsync của class PagerViewComponent để phân trang *@
             @await Component.InvokeAsync("Pager", Model)
         </div>
-    </div>
-</div>
+        <div class="text-center">
+        <h4>TỔNG DOANH THU: @Model.Items.Where(item => item.Status == (OrderStatus)4).Sum(item => item.Price).ToString("N0") &#8363;</h4>
+@{
+    Dictionary<DateTime, decimal> dailyTotalValues = new Dictionary<DateTime, decimal>();
 
+}
+
+            <canvas id="chart"></canvas>
+
+        </div>
+    </div>
+    </div>
+    
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+       var dailyTotalValues = {};
+
+        @foreach (var item in Model.Items)
+        {
+            if (item.Status == (OrderStatus)4) // Chỉ tính tổng cho các đơn hàng đã giao (trạng thái 4)
+            {
+                DateTime orderDate = item.OrderDate.Date; // Lấy ngày của đơn hàng (bỏ qua phần giờ, phút, giây)
+                if (dailyTotalValues.ContainsKey(orderDate))
+                {
+                    dailyTotalValues[orderDate] += item.Price;
+                }
+                else
+                {
+                    dailyTotalValues[orderDate] = item.Price;
+                }
+            }
+        }
+
+        var ctx = document.getElementById('chart').getContext('2d');
+        var dates = [];
+        var values = [];
+
+        @foreach (var pair in dailyTotalValues)
+        {
+            <text>dates.push('@pair.Key.ToString("dd/MM/yyyy")');</text>
+            <text>values.push(@pair.Value);</text>
+        }
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Tổng doanh thu ngày', 
+                    data: values,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Ngày'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Giá trị'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+    <script src="~/js/order.js"></script>
+    <script>
+        var orderController = new OrderController();
+        orderController.initialize();
+    </script>
+}
